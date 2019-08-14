@@ -1,4 +1,3 @@
-# Класс Ссылка, разновидность базового класса "Запись"
 class Link < Post
 
   def initialize
@@ -7,12 +6,18 @@ class Link < Post
     @url = ''
   end
 
-  # Этот метод пока пустой, он будет спрашивать 2 строки — адрес ссылки и описание
   def read_from_console
+    puts "Вводим полезную ссылку"
+    puts "Введи ссылку, которую хочешь сохранить"
+    @url = STDIN.gets.chomp
+
+    puts "Введи комментарий, что находится по ссылке"
+    @text = STDIN.gets.chomp
   end
 
-  # Массив из трех строк: адрес ссылки, описание и дата создания
-  # Будет реализован в след. уроке
+  # возвращает массив строк для записи в файл
   def to_strings
+    create_time = @created_at.strftime("Запись создана:_%Y-%m-%d,_%H:%M:%S")
+    return [create_time, @url, @text]
   end
 end

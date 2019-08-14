@@ -1,12 +1,21 @@
-# Класс Ссылка, разновидность базового класса "Запись"
 class Memo < Post
 
-  # Этот метод пока пустой, он будет спрашивать 2 строки — адрес ссылки и описание
+  # метод записывает в массив то, что введет юзер до момента ввода строки end
   def read_from_console
+    puts "Делаем простую запись"
+    puts "Введи необходимый текст. Окончание ввода - строка end"
+    @text = []
+    string = nil
+    while string != "end" do
+      string = STDIN.gets.chomp
+      @text << string
+    end
+    @text.pop
   end
 
-  # Массив из трех строк: адрес ссылки, описание и дата создания
-  # Будет реализован в след. уроке
+  # возвращает массив строк для записи в файл
   def to_strings
+    create_time = "Запись создана: #{@created_at.strftime('%Y.%m.%d, %H:%M:%S')}"
+    return @text.unshift(create_time)
   end
 end

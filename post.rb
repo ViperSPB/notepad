@@ -2,6 +2,14 @@
 # Задает основные методы и свойства, присущие всем разновидностям Записи
 class Post
 
+  def self.post_types
+    [Memo, Link, Task]
+  end
+
+  def self.create(type_index)
+    return post_types[type_index].new
+  end
+
   # Конструктор
   def initialize
     @created_at = Time.now # дата создания записи
@@ -21,18 +29,19 @@ class Post
     # которые знают как именно хранить себя в файле
   end
 
-  # Этот метод записывает текущее состояние объекта в файл
+  # Этот метод записывает в файл сформированный массив значений
   def save
     file = File.new(file_path, "w:UTF-8")
-    for item in to_stings do
-      file.puts(item)
-    end
+    to_strings.each { |string| file.puts(string) }
     file.close
   end
 
   def file_path
     current_path = File.dirname(__FILE__ )
-    file_name = @created_at.strftime("#{self.class.name}_%Y-%m-%d_%H:%M:%S.txt")
-    return current_path + "/" + file_name
+    # странно, строка ниже форматированная кроме как так _%H-%M-%S
+    # не дает создавать файл/ так например не получается = %H:%M:%S
+    file_name = @created_at.strftime("#{self.class.name}_%Y-%m-%d_%H-%M-%S")
+    return current_path + "/" + file_name + ".txt"
   end
+  
 end
